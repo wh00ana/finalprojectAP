@@ -1,0 +1,461 @@
+i have a project to creat a java game code that simulates stealing a diamond from a house and players must guess who stole it from which room and where.
+we have 9 rooms 6 characters and 6 places card.
+First, you shuffle all three decks of cards randomly,we choose one card from each deck
+randomly separate and set aside. Now combine the rest of the cards and give them equally and randomly to players. According to the number of participants, the number of their cards is different.mibnimum players are 3 and maximum players can be 6.
+
+Randomly arrange the participants in order and start from the first player.
+The first person throws his dice and enters one of the rooms according to the number of the dice.
+Follow the rules below to choose rooms:
+If the number of the dice is odd, the player can go to the odd-numbered rooms, and if the number is even, the player can go to even-numbered rooms.
+The player must move and cannot stay in his room.
+- The player does not have the right to go to the side rooms, the reception room is not considered to be side to the rooms.
+The rooms are all around the reception area, so the first and last rooms are side by side.
+
+from first player;player1 enters room 5 and chooses "Jack" and "on the closet"and as he entered room5 room 5 is also his guess.he questions his guess from others.
+as he questioned his guess, we itterate from next player and check
+Any player who has one of the three choices must let player1 know.
+Example: Player1 declares the question: "room5" , "Jack" , "on the closet".
+Player2 does not have any of the cards, so he passes. and the next player checks;the player has the three cards( "on the closet "  , "room5", "Liam"),
+he says out loud"Me!"and he choose one of the mutual cards and say it to only the questioning player. The rest of the players only know that player number three is one of
+this player have one of three cards player1 questioned but they don't know which card!
+after someone said "Me!" round is over so we will pass to player 2 to roll the dice and choose his room and player continue playing.
+
+If at the end of a round the player reaches the result that he can quess the room,the character and the place correctly,
+ he declares that he intends to make the final guess, so he chooses from three card decks.
+
+If the guess is correct, the game is overand he wins; But if the guess is wrong, this player is out of the game
+He no longer has the right to roll adice and guess, and only if he has questioned cards
+he will say it. After that, the next person will play the game in the same way.
+there are minimum 1 real player and maximum 2 real players here the rest of the players do random
+ questions and do not quess the correct answer.
+ now these are my codes from diffrent files for this game project help me better function it and debug it:
+Main.java file code:
+import java.util.Scanner;
+/**
+ * Main
+ */
+public class Main {
+    public static void main(String[] args) {
+        Menu menu = new Menu();
+        menu.displayMenu();
+    }
+}
+Dice.java file code:
+import java.util.Random;
+
+public class Dice {
+    private static final Random random = new Random();
+
+    //*between min (min) and (max) */ 
+    public static int roll(int min, int max) {
+        return random.nextInt(max - min) + min;
+    }
+}
+Player.java file code:
+import java.util.ArrayList;
+import java.util.List;
+
+public class Player {
+    private String name;
+    private List<String> holdingCards;
+
+
+    public Player(String name) {
+        this.name = name;
+        this.holdingCards = new ArrayList<>();
+
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<String> getholdingCards() {
+        return holdingCards;
+    }
+
+
+    public void addholdingCard(String card) {
+        holdingCards.add(card);
+    }
+    }
+
+    
+    }
+}
+
+Menu.java file code:
+import java.util.Scanner;
+
+public class Menu {
+    public void displayMenu() {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("===== merdurer amoung us =====");
+            System.out.println("1. Start Game");
+            System.out.println("2. How to Play");
+            System.out.println("3. Exit");
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.err.println("  stealing a diamond FOR YOU.... ");
+                    //here put starting game and needed functions to run the game
+                    
+                    startGame();
+                    
+                    
+                    break;
+                case 2:
+                    showHowToPlay();
+                    break;
+                case 3:
+                    System.out.println("Exiting the game. Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 3);
+
+        scanner.close();
+    }
+
+    private void startGame() {
+        System.out.println("Starting the game...");
+        // Add your game starting logic here
+    }
+
+    private void showHowToPlay() {
+        System.out.println("===== How to Play =====");
+        // Add your game description and instructions here
+        System.out.println("Fill in your game instructions here.");
+    }
+}
+Entering.java file code:
+import java.util.ArrayList;
+import java.util.ArrayList;
+import java.util.List;
+public class Entering{
+    public String[] rooms = {
+        "Living Room", "Piano Room", "Green Room", "Office", 
+        "Billiard Room", "Bedroom", "Dining Room", "Library" ,"kitchen"};
+        String currentRoom = null;
+    public String Entering(String[] ){
+
+
+        //roll a dice
+        int diceroll= Dice.roll(0, 6);
+        System.err.println("you throw a dice and this is the result: "+diceroll);
+
+
+        //dice is even
+        if (diceroll%2 ==0){
+            System.out.println("you can enter to even rooms:");
+            for(int i=1; i<rooms.length; i=i+2){
+                System.out.print(i+1 +rooms[i] + " ");
+            }
+            chooseroom(2,curentroom);
+
+        //dice is odd
+        }else{
+            System.out.println("you can enter to odd rooms:");
+            for(int i=0; i<rooms.length; i=i+2){
+                System.out.print(i+1 +rooms[i] + " ");
+
+        }
+        chooseRoom(1,curentroom);
+        
+    }
+
+    //deleting nearby rooms 
+} private List<String> chooseRoom(int n ,List<String> availableRooms) {
+        List<String> allowedRooms = new ArrayList<>(availableRooms);
+        System.out.println("Here are your options based on the game rules (you can't go to nearby rooms):");
+
+        if (currentRoom != null) {
+            switch (currentRoom) {
+                case "Living Room":
+                    allowedRooms.remove("Living Room");
+                    allowedRooms.remove("Piano Room");
+                    allowedRooms.remove("Kitchen");
+                    break;
+                case "Kitchen":
+                    allowedRooms.remove("Kitchen");
+                    allowedRooms.remove("Living Room");
+                    allowedRooms.remove("Dining Room");
+                    break;
+                case "Piano Room":
+                    allowedRooms.remove("Piano Room");
+                    allowedRooms.remove("Living Room");
+                    allowedRooms.remove("Green Room");
+                    break;
+                case "Green Room":
+                    allowedRooms.remove("Green Room");
+                    allowedRooms.remove("Piano Room");
+                    allowedRooms.remove("Office");
+                    break;
+                case "Office":
+                    allowedRooms.remove("Office");
+                    allowedRooms.remove("Green Room");
+                    allowedRooms.remove("Billiard Room");
+                    break;
+                case "Billiard Room":
+                    allowedRooms.remove("Billiard Room");
+                    allowedRooms.remove("Office");
+                    allowedRooms.remove("Bedroom");
+                    break;
+                case "Bedroom":
+                    allowedRooms.remove("Bedroom");
+                    allowedRooms.remove("Billiard Room");
+                    allowedRooms.remove("Dining Room");
+                    break;
+                case "Dining Room":
+                    allowedRooms.remove("Dining Room");
+                    allowedRooms.remove("Bedroom");
+                    allowedRooms.remove("Library");
+                    break;
+                case "Library":
+                    allowedRooms.remove("Library");
+                    allowedRooms.remove("Dining Room");
+                    allowedRooms.remove("Kitchen");
+                    break;
+            }
+        }
+        switch (n){
+            case 1:
+                allowedRooms.remove("Green Room");
+                allowedRooms.remove("Billiard Room");
+                allowedRooms.remove("Dining Room");
+                allowedRooms.remove("Kitchen");
+
+                break;
+            case 2:
+                allowedRooms.remove("Piano Room");
+                allowedRooms.remove("Office");
+                allowedRooms.remove("Bedroom");
+                allowedRooms.remove("Library");
+                break;
+
+            default:
+                break;
+        }
+
+        // for (String room : allowedRooms) {
+        //     System.out.println(room);
+        // }
+
+        return allowedRooms;
+    }
+}
+
+
+Game.java file code :
+import java.util.ArrayList;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class Game extends Entering{
+    private ArrayList<Player> players;
+    private String[] characters = {"Emma", "Liam", "Jack", "Sophia", "Emily", "Ella"};
+    private String[] places = {
+        "Under the Bed", "Secret Drawer", "Behind the Picture", 
+        "Inside the Box", "Under the Table", "On the Closet"
+    };
+
+    private String[] answer; // Array to store the answer [room, character, place]
+
+    public Game() {
+        players = new ArrayList<>();
+        answer = new String[3];
+        
+        // Randomly choose room, character, and place using Dice class
+        String answerroom = rooms[Dice.roll(0, rooms.length)];
+        String answercharacter = characters[Dice.roll(0, characters.length)];
+        String answerplace = places[Dice.roll(0, places.length)];
+        answer[0]= answerroom;
+        answer[1]= answercharacter;
+        answer[2]=answerplace;
+
+    }
+
+    // Method to add a player to the game
+    public void addPlayer(Player player) {
+        players.add(player);
+    }
+    public ArrayList<String> RemainCards(){
+        // Create modified versions of characters and places excluding the answers
+        List<String> modifiedCharacters = new ArrayList<>();
+        List<String> modifiedPlaces = new ArrayList<>();
+        List<String> modifiedRooms = new ArrayList<>();
+
+        for (String character : characters) {
+            if (!character.equals(answer[1])) {
+                modifiedCharacters.add(character);
+            }
+        }
+
+        for (String place : places) {
+            if (!place.equals(answer[2])) {
+                modifiedPlaces.add(place);
+            }
+        }
+        for (String room : rooms) {
+            if (!room.equals(answer[0])) {
+                modifiedRooms.add(room);
+            }
+        }
+        return bor(modifiedCharacters, modifiedPlaces, modifiedRooms);
+    }
+    // Method to start the game (example implementation)
+    public void startGame() {
+        ArrayList<String> Allcards= RemainCards();
+        //setplayerscard
+        dast(Allcards);
+        //let first player choose room
+        //use choose room from Entring class
+        //check others players cards
+
+        //guess button
+        //check guess
+        //ending
+
+
+        for (Player player : players) {
+            System.out.println(player);
+        }
+    }
+
+    // give cards equally and randomly among players
+    private ArrayList<String> bor(List<String> characterscards, List<String> placescards,List<String> roomscards) {
+            //random dices from characters and places
+            int howmanyplayers = players.size();
+            ArrayList<String> Allcards = new ArrayList<>();
+            for(String card : characterscards){
+                Allcards.add(card);
+            }
+            for (String card : roomscards){
+                Allcards.add(card);
+            }
+            for(String card : placescards){
+                Allcards.add(card);
+            }
+            return Allcards;
+
+
+    }
+    public void dast(ArrayList allcards){
+        int dastnumber = allcards.size()/players.size();
+        for(Player player: players){
+            for(int i = dastnumber;i>0;i--){
+                Player.addholdingCard(allcards.get(Dice.roll(0, i)));
+                allcards.remove(i);
+            }
+        }
+    }
+
+    // Getters for answers (for testing or further game logic)
+    public String getAnswerRoom() {
+        return answer[0];
+    }
+
+    public String getAnswerCharacter() {
+        return answer[1];
+    }
+
+    public String getAnswerPlace() {
+        return answer[2];
+    }
+
+
+    //players questioning others after entering a room
+    private void annoucequestion(Player turnplayer ,ArrayList playerslist){
+        Scanner scanner = new Scanner(System.in);
+        List<String> turnplayercards = turnplayer.getholdingCards();
+
+        System.out.print("🃜🃚🃖"+ " ");
+        for (String card : turnplayercards){
+            System.out.print(card + " ");
+        }
+
+        int j = 3;
+        while (j>0){
+        System.err.println("🃁🂭🂺");
+        System.out.println("enter your question about room:");
+        String roomquestion = scanner.nextLine();
+        if (!(rooms.contains(roomquestion)){
+            System.err.println("please announce your question about room,this wasnt a room");
+
+        }else {
+            j--;
+        }
+
+        System.err.println("🃁🂭🂺");
+        System.out.println("enter your question about person/characters:");
+        String characterquestion = scanner.nextLine();
+        if (!(characters.contains(characteruestion) ){
+            System.err.println("please announce your question about people,this wasnt a character");
+
+        }else{
+            j--;
+        }
+        System.err.println("🃁🂭🂺");
+        System.out.println("enter your question about person/characters:");
+        String placequestion = scanner.nextLine();
+        if (!(places.contains(placequestion) ){
+            System.err.println("please announce your question about places,this wasnt a place");
+
+        }else{
+            j--;
+        }
+        
+
+    } 
+    askothers(roomquestion, characterquestion , placequestion);
+    }
+
+    //check if any Player has the questioned cards
+    public String askothers(String roomquestion,String charactersquestion,String placequestion){
+        for(Player p : players){
+            ArrayList<Player> playerMeAnswers;
+            
+            if (Player.holdingCards.contains(roomquestion)){
+                     playerMeAnswers.add(roomquestion);
+                }
+            }
+            if (Player.holdingCards.contains(charactersquestion)){
+                     playerMeAnswers.add(charactersquestion);
+                }
+            
+            if (Player.holdingCards.contains(placequestion)){
+                     playerMeAnswers.add(placequestion);
+                }
+            
+            
+            if (playerMeAnswers.size()>1){
+                int randomindex = Dice.roll(0, playerMeAnswers.size());
+                return playerMeAnswers.get(randomindex);
+            }else{
+                return playerMeAnswers.get(0);
+            }
+            String noone= "no one know anything about your question about this room";
+            return noone;
+        }
+            
+        }
+    }
+}
+    
+
+
+
+
+
+
+
+
+
+ 
